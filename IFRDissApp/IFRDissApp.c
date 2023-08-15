@@ -569,9 +569,6 @@ main(
 		CHAR8 JsonFileName[64];
 
 		UnicodeSPrint(FileName, sizeof(FileName), L"Package%g.hpk", &HiiPkgLstsEntry->PackageListGuid);
-		CHAR16 GUID_1[37];
-		UnicodeSPrint(GUID_1, sizeof(GUID_1), L"%g\n", &HiiPkgLstsEntry->PackageListGuid);
-		CHAR16 GUID_2[] = L"E14F04FA-8706-4353-92F2-9C2424746F9F";
 		Status = ShellOpenFileByName(FileName, &FileHandle, EFI_FILE_MODE_READ | EFI_FILE_MODE_WRITE | EFI_FILE_MODE_CREATE, 0);
 
 		if (EFI_ERROR(Status))
@@ -599,7 +596,7 @@ main(
 				return EFI_VOLUME_CORRUPTED;
 			}
 
-			if (!StrCmp(&GUID_1[0], &GUID_2[0]) && packageEntry->Type == EFI_HII_PACKAGE_FORMS)
+			if (packageEntry->Type == EFI_HII_PACKAGE_FORMS)
 			{
 				EFI_IFR_OP_HEADER* OpHeader = (EFI_IFR_OP_HEADER*)(packageEntry + 1);
 				json_object* root = json_object_new_object();
